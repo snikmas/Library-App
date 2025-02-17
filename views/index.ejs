@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Document To Library Lite!</h1>
+  <!-- index.html -->
+<!-- form -->
+ <section>
+  <h2>Your Books</h2>
+  <!-- unorered list -->
+   <ul>
+    <!-- loop through bookInfo -->
+     <% for (const book of bookInfo) {%>
+      <!-- for each book, create an li -->
+       <li>
+        <span>
+          <!-- plug in the book title and author -->
+           <%= book.title %> by <%= book.author %>
+        </span>
+       </li>
+       <!-- end of for loop -->
+     <% } %>
+   </ul>
+
+</section>
+
+</body>
+</html>

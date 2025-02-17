@@ -1,32 +1,77 @@
+<!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+   <title>Document</title>
 </head>
 <body>
-  <h1>Document To Library Lite!</h1>
-  <!-- index.html -->
-<!-- form -->
- <section>
-  <h2>Your Books</h2>
-  <!-- unorered list -->
-   <ul>
-    <!-- loop through bookInfo -->
-     <% for (const book of bookInfo) {%>
-      <!-- for each book, create an li -->
-       <li>
+   <h1>Welcome To Library Lite!</h1>
+   <!-- Add Books Section -->
+   <section>
+       <h2>Add Books</h2>
+       <form action="/addBook" method="POST" class="flex flex-col">
+           <div>
+               <!-- Title Input -->
+               <div>
+                   <label for="title">Title</label>
+                   <input
+                       placeholder="The Stranger"
+                       type="text"
+                       name="title"
+                       id="title"
+                       required >
+                </div>
+                <!-- Author Input -->
+                <div>
+                    <label for="author">Author</label>
+                    <input
+                        placeholder="Albert Camus"
+                        type="text"
+                        name="author"
+                        id="author"
+                        required >
+                </div>
+           </div>
+           <button type="submit">Add Book</button>
+       </form>
+   </section>
+
+
+   <!-- index.ejs -->
+<section>
+  <h2>Your Books</h2> 
+  <!-- unordered list -->
+  <ul>
+     <!-- loop through bookInfo -->
+     <% for(const book of bookInfo) { %>
+        <!-- for each book, create an li -->
+        <li>
+           <span>
+              <!-- plug in the book title and author -->
+              <%= book.title %> by <%= book.author %>
+           </span>
+        </li>
+     <!-- end of for loop -->
+     <% } %>
+  </ul>
+</section>
+
+<!--  BOOKLIST DOESN'T WORK -->
+<!-- index.ejs -->
+<ul>
+  <% for(const book of bookList) { %>
+     <li>
         <span>
-          <!-- plug in the book title and author -->
            <%= book.title %> by <%= book.author %>
         </span>
-       </li>
-       <!-- end of for loop -->
-     <% } %>
-   </ul>
+       <!-- delete button -->
+       <button class="delete">Delete</button>
+     </li>
+  <% } %>
+</ul>
 
-</section>
 
 </body>
 </html>

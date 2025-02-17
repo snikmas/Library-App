@@ -1,7 +1,7 @@
 // * =========
 // IMPORTS
 // ========= *
-import express from 'express'
+import express, { response } from 'express'
 import { MongoClient } from 'mongodb'
 
 // * =========
@@ -14,6 +14,8 @@ const user = process.env.MONGODB_USER
 const pwd = process.env.MONGODB_PWD
 const PORT = process.env.PORT || 3000;
 
+app.set('view engine', 'ejs')
+app.use(express.json());
 
 // * =========
 // SERVER AND API
@@ -26,28 +28,46 @@ function createServer(books){
     
   // ======== ROUTE MIDDLERS
   //read data
-  app.get('/', (req, res) => {
-    // res.send("this is response from the server")
-    res.sendFile(dirname + '/index.html')
-  })
+  app.get('/', async (req, res) => {
+    try{
+    const bookList = await books.find().toArray();
+    console.log(bookList)
+
+    // render ejs
+    res.render('index.ejs', {bookInfo: bookList})
+  } catch (err) {
+    console.log(`Error retrieving list of books ${err}`);
+  };
+})
   
   // client sends data to the server
   // and the browser waits a response from it 
-  app.post('/addBook', async (req, res) => {
+app.post('/addBook', async (request, response) => {
     try {
       const result = await books.insertOne({
-        title: req.body.title,
-        author: req.body.author,
+        title: request.body.title,
+        author:request.body.author,
         read: false
-      }
-      );
-    console.log(result);
-    res.redirect('/')
+      });
 
-  } catch(err) {
-    console.error(`Could not add book: ${err}`);
-  };
-})
+      console.log(result);
+      response.redirect('/');
+    } catch(err) {
+      console.error(`Could not add book: ${err}`);
+     };
+ });
+
+
+ // TASK: DELETE BY USING ID
+ app.delete('/deleteBook', async(req, res) => {
+  try{
+    const result = await books.deleteOne({
+      title: req.body.title});
+      res.json("Book deleted successfully");
+    } catch(err) {
+      console.error(`failed to delete book: ${err}`)
+    };
+  });
    
   app.listen(PORT, () => console.log("server is running"))
 }
@@ -63,7 +83,7 @@ async function connectToDatabase() {
     const db = client.db('library')
     const books = db.collection('bookData')
     
-    return {client, books};
+    return {books};
   } catch (err) {
     console.error(err)
   }
@@ -75,7 +95,7 @@ async function connectToDatabase() {
 async function main() {
   try {
     // const {client, books} = await connectToDatabase();
-    const books = await connectToDatabase();
+    const { books } = await connectToDatabase();
     createServer(books);
   } catch(err) {
     console.error(`Failed to start your app: ${err}`)

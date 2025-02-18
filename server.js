@@ -24,6 +24,7 @@ function createServer(books){
 
   // middleware
   app.use(express.urlencoded({extended: true}))
+  app.use(express.static('public'));
   
     
   // ======== ROUTE MIDDLERS

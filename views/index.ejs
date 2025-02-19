@@ -1,4 +1,3 @@
-<!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +7,10 @@
 </head>
 <body>
    <h1>Welcome To Library Lite!</h1>
-   <!-- Add Books Section -->
    <section>
        <h2>Add Books</h2>
        <form action="/addBook" method="POST" class="flex flex-col">
            <div>
-               <!-- Title Input -->
                <div>
                    <label for="title">Title</label>
                    <input
@@ -23,7 +20,7 @@
                        id="title"
                        required >
                 </div>
-                <!-- Author Input -->
+
                 <div>
                     <label for="author">Author</label>
                     <input
@@ -39,40 +36,70 @@
    </section>
 
 
-   <!-- index.ejs -->
 <section>
   <h2>Your Books</h2> 
-  <!-- unordered list -->
   <ul>
-     <!-- loop through bookInfo -->
      <% for(const book of bookInfo) { %>
-        <!-- for each book, create an li -->
         <li>
            <span>
-              <!-- plug in the book title and author -->
               <%= book.title %> by <%= book.author %>
            </span>
         </li>
-     <!-- end of for loop -->
      <% } %>
   </ul>
 </section>
 
-<!--  BOOKLIST DOESN'T WORK -->
-<!-- index.ejs -->
 <ul>
   <% for(const book of bookInfo) { %>
      <li>
         <span>
            <%= book.title %> by <%= book.author %>
         </span>
-       <!-- delete button -->
        <button class="delete">Delete</button>
      </li>
   <% } %>
 </ul>
 
 
-   <script src="/public/main.js"></script>
+<section>
+    <section>
+        <h2>Want To Read</h2>
+        <ul>
+            <% for(const book of bookInfo) {
+                if(book.read === false) { %>
+                    <li>
+                        <span>
+                            <%= book.title %> by <%= book.author %>
+                        </span>
+                        <button class="delete">Delete</button>
+                        <button class="mark-read">Mark Read</button>
+                    </li>
+                <% }
+            } %>
+        </ul>
+    </section>
+    <section>
+        <h2>Read</h2>
+        <ul>
+            <% for(const book of bookInfo) {
+                if(book.read === true) { %>
+                    <li>
+                        <span>
+                            <%= book.title %> by <%= book.author %>
+                        </span>
+                        <button class="delete">Delete</button>
+                        <button class="mark-unread">Mark Unread</button>
+                    </li>
+                <% }
+            } %>
+        </ul>
+    </section>
+</section>
+
+
+
+
+
+   <script src="/main.js"></script>
 </body>
 </html>

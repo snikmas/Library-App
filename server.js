@@ -73,6 +73,31 @@ app.post('/addBook', async (request, response) => {
   app.listen(PORT, () => console.log("server is running"))
 }
 
+app.put('/markRead', async(req, res) => {
+  await markBook(req, res, true, books)    
+});
+
+app.put('/markUnread', async(req, res) => {
+  await markBook(req, res, false, books)
+})
+
+ 
+async function markBook(req, res, isRead) {
+  try{
+    const result = await books.updateOne({
+      title: req.body.title
+    }, {
+      $set: {
+        read: isRead
+      }
+    });
+    res.json(`Marked ${isRead ? 'Read' : 'Unread'}`)
+  } catch(err){
+    console.log(`Failed to mark book`);
+  }
+  
+};
+
 // * =========
 // CONNECT TO DB
 // ========= *

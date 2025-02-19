@@ -14,7 +14,7 @@ async function mark(endpoint, bookTitle){
   try {
     const result = await fetch(endpoint, {
       method: 'put',
-      headers: {'Content-Type': 'application/josn'},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         title:bookTitle
       })

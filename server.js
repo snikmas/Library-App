@@ -71,7 +71,7 @@ app.post('/addBook', async (request, response) => {
   });
    
   app.listen(PORT, () => console.log("server is running"))
-}
+
 
 app.put('/markRead', async(req, res) => {
   await markBook(req, res, true, books)    
@@ -81,8 +81,10 @@ app.put('/markUnread', async(req, res) => {
   await markBook(req, res, false, books)
 })
 
- 
-async function markBook(req, res, isRead) {
+}
+
+
+async function markBook(req, res, isRead, books) {
   try{
     const result = await books.updateOne({
       title: req.body.title
